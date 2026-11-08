@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Akshat's resources</title>
+<meta name="description" content="Every resource Akshat has saved: mathematics, computer science, AI, economics, books and essays.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23fff'/><text x='8' y='24' font-family='Georgia,serif' font-size='24' fill='%23111'>a</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet">
+<style>
+  :root { --ink: #111; --muted: #888; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #fff;
+    color: var(--ink);
+    font: 400 18px/1.7 "Newsreader", Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 560px; margin: 0 auto; padding: 14vh 20px 10vh; }
+  h1 { font-size: 18px; font-weight: 400; margin: 0; }
+  .site { margin: 0 0 32px; color: var(--muted); }
+  h2 { font-size: 18px; font-weight: 400; color: var(--muted); margin: 0 0 8px; }
+  section { margin: 0 0 32px; }
+  p { margin: 0; }
+  a { color: inherit; text-decoration: underline; text-decoration-color: #ccc; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  a:hover { text-decoration-color: var(--ink); }
+
+  #q {
+    width: 100%;
+    font: 400 18px/1.7 "Newsreader", Georgia, serif;
+    color: var(--ink);
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding: 4px 0;
+    margin: 0 0 16px;
+    outline: none;
+    background: transparent;
+  }
+  #q:focus { border-bottom-color: var(--ink); }
+  #q::placeholder { color: var(--muted); }
+
+  .cats { margin: 0 0 40px; }
+  .cats a {
+    color: var(--muted);
+    text-decoration: none;
+    margin-right: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .cats a:hover { color: var(--ink); }
+  .cats a.on { color: var(--ink); text-decoration: underline; text-decoration-color: #ccc; text-underline-offset: 3px; }
+
+  .r { margin: 0 0 22px; }
+  .r .by { color: var(--muted); }
+  .r .d { display: block; }
+  .r .t { display: block; font-size: 14px; color: var(--muted); margin-top: 2px; }
+  .none { color: var(--muted); display: none; }
+  .count { color: var(--muted); margin: 0 0 24px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Akshat's resources</h1>
+  <p class="site">everything saved so far, in one place</p>
+
+  <section>
+    <input id="q" type="text" placeholder="search a subject, title or author" autocomplete="off">
+    <p class="cats" id="cats"></p>
+    <p class="count" id="count"></p>
+  </section>
+
+  <section id="list"></section>
+  <p class="none" id="none">Nothing matches that.</p>
+</main>
+<script>
+var RES = [
+  // Mathematics
+  {t:"Book of Proof", by:"Richard Hammack", d:"Free textbook on writing proofs: induction, contradiction, counting, relations.", u:"https://richardhammack.github.io/BookOfProof/Main.pdf", c:["Mathematics","Books"]},
+  {t:"Mathematics for Computer Science", by:"Eric Lehman, Tom Leighton & Albert Meyer, MIT", d:"MIT's free textbook: discrete maths, proofs and probability, built for CS.", u:"https://people.csail.mit.edu/meyer/mcs.pdf", c:["Mathematics","Computer Science","Books"]},
+  {t:"Summation", by:"Evan Chen", d:"Olympiad-style handout on evaluating sums and series.", u:"https://web.evanchen.cc/handouts/Summation/Summation.pdf", c:["Mathematics"]},
+  {t:"Mathua", by:"Mathua", d:"Prerequisite-sequenced maths lessons with mastery checks and spaced repetition.", u:"https://mathua.com/", c:["Mathematics"]},
+  {t:"Introduction to Probability", by:"Hossein Pishro-Nik", d:"Free probability textbook with examples and videos.", u:"https://www.probabilitycourse.com/", c:["Mathematics","Books"]},
+  // Computer Science
+  {t:"CS50P: Introduction to Programming with Python", by:"David Malan, Harvard", d:"The first coding course. Free certificate included.", u:"https://cs50.harvard.edu/python", c:["Computer Science"]},
+  {t:"CS50x: Introduction to Computer Science", by:"David Malan, Harvard", d:"Harvard's flagship intro to CS; the step after CS50P.", u:"https://cs50.harvard.edu/x", c:["Computer Science"]},
+  {t:"The Missing Semester of Your CS Education", by:"MIT CSAIL", d:"The practical tools courses skip: shell, editors, version control, debugging, profiling.", u:"https://missing.csail.mit.edu/", c:["Computer Science"]},
+  // AI & ML
+  {t:"Neural Networks (visual series)", by:"3Blue1Brown", d:"The picture of what a neural network is doing, via handwritten digits, before any maths.", u:"https://www.3blue1brown.com/lessons/neural-networks/", c:["AI & ML","Mathematics"]},
+  {t:"The Little Book of Deep Learning", by:"François Fleuret", d:"A short, free introduction to the maths behind deep learning.", u:"https://ant.fleuret.org/francois/lbdl.html", c:["AI & ML","Mathematics","Books"]},
+  {t:"Understanding Deep Learning", by:"Simon Prince", d:"Free deep-learning textbook. Keep as the reference, not a course to finish.", u:"https://udlbook.github.io/udlbook/", c:["AI & ML","Books"]},
+  {t:"AI Engineering from Scratch", by:"AI Engineering from Scratch", d:"Free, open-source AI-engineering curriculum. Assumes you can already code a little.", u:"https://aiengineeringfromscratch.com", c:["AI & ML","Computer Science"]},
+  {t:"Introduction to AI Safety, Ethics, and Society", by:"Dan Hendrycks", d:"Free textbook on AI safety: technical and societal sides.", u:"https://www.aisafetybook.com/textbook/ai-fundamentals", c:["AI & ML","Books"]},
+  {t:"Towards Understanding Score-Seeking", by:"Redwood Research", d:"What models are chasing when they cheat: experiments separating score-seeking from reward-seeking.", u:"https://blog.redwoodresearch.org/p/towards-understanding-score-seeking", c:["AI & ML","Essays"]},
+  {t:"OpenAI Agents Keep Disabling Monitoring", by:"Redwood Research", d:"Two disclosed incidents of agents turning off their own oversight, and what they mean.", u:"https://blog.redwoodresearch.org/p/openai-agents-keep-disabling-monitoring", c:["AI & ML","Essays"]},
+  {t:"How Much Does Claude's Constitution Actually Matter?", by:"Asterisk", d:"On Anthropic's bet of training a model on stories of good character, and its measured limits.", u:"https://asteriskmag.substack.com/p/how-much-does-claudes-constitution", c:["AI & ML","Essays"]},
+  {t:"Simulated Control Evaluations", by:"Redwood Research", d:"How to test AI monitors without running real attacks.", u:"https://blog.redwoodresearch.org/p/simulated-control-evaluations", c:["AI & ML","Essays"]},
+  // Economics
+  {t:"The Economy 2.0 & Doing Economics (CORE Econ)", by:"CORE Econ", d:"Free modern economics textbooks taught with real policy data.", u:"https://www.core-econ.org/ebooks/", c:["Economics","Books"]},
+  {t:"Econ 159: Game Theory", by:"Ben Polak, Yale Open Courses", d:"A full filmed Yale course on game theory.", u:"https://oyc.yale.edu/economics/econ-159", c:["Economics","Mathematics"]},
+  {t:"Prediction Markets (2004)", by:"Justin Wolfers & Eric Zitzewitz", d:"The classic paper on how markets turn dispersed information into forecasts.", u:"https://www.aeaweb.org/articles?id=10.1257/0895330041371321", c:["Economics"]},
+  {t:"How Central Bankers Spend Their Time", by:"NBER Working Paper 35913", d:"20,000+ calendar entries from Bernanke, Yellen and Powell: the work behind rate decisions.", u:"https://www.nber.org/papers/w35913", c:["Economics"]},
+  {t:"Saving for the Machines", by:"Jesús Fernández-Villaverde", d:"Who funds the capital that AI needs.", u:"https://www.sas.upenn.edu/~jesusfv/Saving_Machines.pdf", c:["Economics","AI & ML"]},
+  {t:"Networks, Crowds, and Markets", by:"David Easley & Jon Kleinberg", d:"Free textbook on networks, games and markets. Start with Chapter 22.", u:"https://www.cs.cornell.edu/home/kleinber/networks-book/networks-book.pdf", c:["Economics","Computer Science","Mathematics","Books"]},
+  {t:"QuantEcon", by:"Thomas Sargent, John Stachurski et al.", d:"Open lectures and code for quantitative economics with Python.", u:"https://intro.quantecon.org/intro.html", c:["Economics","Mathematics","Computer Science"]},
+  {t:"How Is AI Shaping Economic Research?", by:"Marginal Revolution", d:"Where AI tools are actually changing economics work.", u:"https://marginalrevolution.com/marginalrevolution/2026/10/how-is-ai-shaping-economic-research.html", c:["Economics","Essays","AI & ML"]},
+  {t:"Brazil's Economic Problems in a Nutshell", by:"Marginal Revolution", d:"The Economist's argument connecting rigid spending rules to chronic crisis.", u:"https://marginalrevolution.com/marginalrevolution/2026/10/brazils-economic-problems-in-a-nutshell.html", c:["Economics","Essays"]},
+  {t:"Facts About Breastfeeding", by:"Marginal Revolution", d:"Putting a value on unpaid maternal nursing across five centuries.", u:"https://marginalrevolution.com/marginalrevolution/2026/10/facts-about-breastfeeding.html", c:["Economics","Essays"]},
+  {t:"Better Incentives, More Kidneys, More Lives", by:"Alex Tabarrok, Marginal Revolution", d:"Market design applied to organ donation.", u:"https://marginalrevolution.com/marginalrevolution/2026/10/better-incentives-more-kidneys-more-lives.html", c:["Economics","Essays"]},
+  {t:"Why Targeted Treatments Cost So Much", by:"Alex Tabarrok, Marginal Revolution", d:"One-time cures create an upfront financing problem; small markets complicate incentives.", u:"https://marginalrevolution.com/marginalrevolution/2026/11/expensive-pharmaceuticals-for-targeted-diseases.html", c:["Economics","Essays"]},
+  {t:"Why Aren't Cybersecurity Losses Worse?", by:"Marginal Revolution", d:"A puzzle about measured losses versus predicted ones.", u:"https://marginalrevolution.com/marginalrevolution/2026/10/why-are-cybersecurity-losses-not-worse.html", c:["Economics","Essays","Computer Science"]},
+  // Books & reading
+  {t:"Standard Ebooks", by:"Standard Ebooks", d:"Free, carefully formatted public-domain classics.", u:"https://standardebooks.org/", c:["Books"]},
+  {t:"Five Books", by:"Five Books", d:"Experts recommend the five best books on their subject, in interviews.", u:"https://fivebooks.com/", c:["Books"]},
+  {t:"Arts & Letters Daily", by:"Arts & Letters Daily", d:"A daily page of essays on ideas, criticism and debate.", u:"https://aldaily.com/", c:["Books","Essays"]},
+  // Essays
+  {t:"The Library Did Not Burn", by:"Erin Meryl", d:"An essay on what survived, and what survival costs.", u:"https://erinmerylstudy.substack.com/p/the-library-did-not-burn", c:["Essays"]},
+  {t:"There's a Place for Everyone", by:"Experimental History", d:"On finding the place where your oddness is an advantage.", u:"https://www.experimental-history.com/p/theres-a-place-for-everyone", c:["Essays"]},
+  {t:"To Learn to Live in a Mundane Universe", by:"Freddie deBoer", d:"On accepting an ordinary world and doing the work anyway.", u:"https://freddiedeboer.substack.com/p/to-learn-to-live-in-a-mundane-universe", c:["Essays"]},
+  {t:"Europeans Came to Asia Not as Conquerors but as Customers", by:"Aeon", d:"The trade-first story of Europe in Asia.", u:"https://aeon.co/essays/europeans-came-to-asia-not-as-conquerors-but-as-customers", c:["Essays"]},
+  {t:"Why Don't We Live in an Art Nouveau World?", by:"Asterisk", d:"Why beautiful, ornate buildings never became the default.", u:"https://asteriskmag.substack.com/p/why-dont-we-live-in-an-art-nouveau", c:["Essays"]},
+  {t:"A World of Pain", by:"In Development", d:"Untreated pain as a fear and regulation problem, not a money problem.", u:"https://indevelopmentmag.substack.com/p/a-world-of-pain", c:["Essays"]},
+  {t:"Stuck in the Vial", by:"In Development", d:"How autoinjectors got stuck, and what that says about drug delivery.", u:"https://indevelopmentmag.substack.com/p/stuck-in-the-vial-how-autoinjectors", c:["Essays"]},
+  {t:"What Shapes Paternal Care?", by:"Asterisk", d:"The evolutionary logic of how much fathers invest.", u:"https://asteriskmag.substack.com/p/how-to-turn-a-philanderer-into-a", c:["Essays"]}
+];
+
+var CATS = ["All","Mathematics","Computer Science","AI & ML","Economics","Books","Essays"];
+var active = "All";
+var list = document.getElementById("list");
+var catsEl = document.getElementById("cats");
+var q = document.getElementById("q");
+var noneEl = document.getElementById("none");
+var countEl = document.getElementById("count");
+
+CATS.forEach(function(c){
+  var a = document.createElement("a");
+  a.textContent = c;
+  a.dataset.c = c;
+  if (c === active) a.className = "on";
+  a.onclick = function(){ active = c; render(); };
+  catsEl.appendChild(a);
+});
+
+function render(){
+  var term = q.value.trim().toLowerCase();
+  Array.prototype.forEach.call(catsEl.children, function(a){
+    a.className = (a.dataset.c === active) ? "on" : "";
+  });
+  list.innerHTML = "";
+  var n = 0;
+  RES.forEach(function(r){
+    if (active !== "All" && r.c.indexOf(active) === -1) return;
+    if (term) {
+      var hay = (r.t + " " + r.by + " " + r.d + " " + r.c.join(" ")).toLowerCase();
+      if (hay.indexOf(term) === -1) return;
+    }
+    n++;
+    var p = document.createElement("p");
+    p.className = "r";
+    var a = document.createElement("a");
+    a.href = r.u; a.textContent = r.t; a.target = "_blank"; a.rel = "noopener";
+    var by = document.createElement("span");
+    by.className = "by"; by.textContent = " — " + r.by;
+    var d = document.createElement("span");
+    d.className = "d"; d.textContent = r.d;
+    var t = document.createElement("span");
+    t.className = "t"; t.textContent = r.c.join(" · ");
+    p.appendChild(a); p.appendChild(by); p.appendChild(d); p.appendChild(t);
+    list.appendChild(p);
+  });
+  noneEl.style.display = n ? "none" : "block";
+  countEl.textContent = n + (n === 1 ? " resource" : " resources") + (active === "All" ? "" : " in " + active);
+}
+q.addEventListener("input", render);
+render();
+</script>
+</body>
+</html>
