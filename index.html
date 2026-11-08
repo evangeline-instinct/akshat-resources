@@ -4,73 +4,70 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Akshat's resources</title>
-<meta name="description" content="Every resource Akshat has saved: mathematics, computer science, AI, economics, books and essays.">
+<meta name="description" content="Akshat's resources.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23fff'/><text x='8' y='24' font-family='Georgia,serif' font-size='24' fill='%23111'>a</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet">
 <style>
-  :root { --ink: #111; --muted: #888; }
+  :root { --bg: #fff; --ink: #111; --muted: #888; --line: #ccc; }
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    background: #fff;
+    background: var(--bg);
     color: var(--ink);
     font: 400 18px/1.7 "Newsreader", Georgia, serif;
     -webkit-font-smoothing: antialiased;
   }
   main { max-width: 560px; margin: 0 auto; padding: 14vh 20px 10vh; }
   h1 { font-size: 18px; font-weight: 400; margin: 0; }
-  .site { margin: 0 0 32px; color: var(--muted); }
-  h2 { font-size: 18px; font-weight: 400; color: var(--muted); margin: 0 0 8px; }
+  .site { margin: 0 0 24px; }
+  h2 { font-size: 18px; font-weight: 400; color: var(--muted); margin: 0; }
   section { margin: 0 0 32px; }
   p { margin: 0; }
-  a { color: inherit; text-decoration: underline; text-decoration-color: #ccc; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  a { color: inherit; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; text-decoration-thickness: 1px; }
   a:hover { text-decoration-color: var(--ink); }
-
+  .d { color: var(--muted); }
+  /* navbar: a quiet column on the left, centred vertically; a row at the top on narrow screens */
+  .side { position: fixed; top: 50%; transform: translateY(-50%); left: max(20px, calc(50% - 280px - 190px)); width: 150px; display: flex; flex-direction: column; gap: 6px; z-index: 2; }
+  .side a { color: var(--muted); text-decoration: none; width: fit-content; transition: color .15s ease; cursor: pointer; }
+  .side a:hover, .side a[aria-current="page"] { color: var(--ink); }
+  .side a[aria-current="page"] { text-decoration: underline; text-decoration-color: var(--line); }
+  @media (max-width: 960px) {
+    .side { position: static; transform: none; width: auto; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 4px 18px; padding: 16px 20px 0; font-size: 16px; }
+    main { padding-top: 8vh; }
+  }
   #q {
     width: 100%;
     font: 400 18px/1.7 "Newsreader", Georgia, serif;
     color: var(--ink);
     border: none;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--line);
     padding: 4px 0;
-    margin: 0 0 16px;
+    margin: 0 0 8px;
     outline: none;
     background: transparent;
   }
   #q:focus { border-bottom-color: var(--ink); }
   #q::placeholder { color: var(--muted); }
-
-  .cats { margin: 0 0 40px; }
-  .cats a {
-    color: var(--muted);
-    text-decoration: none;
-    margin-right: 14px;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-  .cats a:hover { color: var(--ink); }
-  .cats a.on { color: var(--ink); text-decoration: underline; text-decoration-color: #ccc; text-underline-offset: 3px; }
-
+  .count { color: var(--muted); margin: 0 0 40px; }
   .r { margin: 0 0 22px; }
   .r .by { color: var(--muted); }
-  .r .d { display: block; }
+  .r .desc { display: block; }
   .r .t { display: block; font-size: 14px; color: var(--muted); margin-top: 2px; }
   .none { color: var(--muted); display: none; }
-  .count { color: var(--muted); margin: 0 0 24px; }
 </style>
 </head>
 <body>
+<nav class="side" aria-label="Categories" id="cats"></nav>
 <main>
   <h1>Akshat's resources</h1>
   <p class="site">everything saved so far, in one place</p>
 
   <section>
     <input id="q" type="text" placeholder="search a subject, title or author" autocomplete="off">
-    <p class="cats" id="cats"></p>
-    <p class="count" id="count"></p>
   </section>
+  <p class="count" id="count"></p>
 
   <section id="list"></section>
   <p class="none" id="none">Nothing matches that.</p>
@@ -138,7 +135,7 @@ CATS.forEach(function(c){
   var a = document.createElement("a");
   a.textContent = c;
   a.dataset.c = c;
-  if (c === active) a.className = "on";
+  if (c === active) a.setAttribute("aria-current", "page");
   a.onclick = function(){ active = c; render(); };
   catsEl.appendChild(a);
 });
@@ -146,7 +143,8 @@ CATS.forEach(function(c){
 function render(){
   var term = q.value.trim().toLowerCase();
   Array.prototype.forEach.call(catsEl.children, function(a){
-    a.className = (a.dataset.c === active) ? "on" : "";
+    if (a.dataset.c === active) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
   });
   list.innerHTML = "";
   var n = 0;
@@ -164,7 +162,7 @@ function render(){
     var by = document.createElement("span");
     by.className = "by"; by.textContent = " — " + r.by;
     var d = document.createElement("span");
-    d.className = "d"; d.textContent = r.d;
+    d.className = "desc"; d.textContent = r.d;
     var t = document.createElement("span");
     t.className = "t"; t.textContent = r.c.join(" · ");
     p.appendChild(a); p.appendChild(by); p.appendChild(d); p.appendChild(t);
